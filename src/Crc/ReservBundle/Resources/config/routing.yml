@@ -1,0 +1,167 @@
+crc_reserv_home:
+    path:     /accueil
+    defaults: { _controller: CrcReservBundle:Default:index }
+
+crc_reserv_device_available:
+    path:     /devices/available/{department}
+    defaults: { _controller: CrcReservBundle:Device:availables }
+
+crc_reserv_device_index:
+    path:     /devices/{department}/{type}
+    defaults: { _controller: CrcReservBundle:Device:index, type: null}
+
+crc_reserv_device_onfield:
+    path:     /sorties/{department}
+    defaults: { _controller: CrcReservBundle:Device:onfield }
+
+crc_reserv_device_stock:
+    path:     /stock/{department}
+    defaults: { _controller: CrcReservBundle:Device:stock }
+
+crc_reserv_device_print_label:
+    path:     /print/device/{device}/{size}
+    defaults: { _controller: CrcReservBundle:Device:printLabel , size: null}
+
+crc_reserv_device_print_list:
+    path:     /print/devices/{department}/{size}
+    defaults: { _controller: CrcReservBundle:Device:printList , size: null}
+
+crc_reserv_device_edit:
+    path:     /device/edit/{device}
+    defaults: { _controller: CrcReservBundle:Device:edit }
+
+crc_reserv_device_create:
+    path:     /device/create/{device}
+    defaults: { _controller: CrcReservBundle:Device:create, device: null }
+
+crc_reserv_device_remove:
+    path:     /device/remove/{device}
+    defaults: { _controller: CrcReservBundle:Device:remove }
+
+crc_reserv_device_takeout:
+    path:     /device/takeout
+    defaults: { _controller: CrcReservBundle:Device:takeout }
+
+crc_reserv_device_return:
+    path:     /device/return
+    defaults: { _controller: CrcReservBundle:Device:return }
+
+crc_reserv_reserver:
+    path: /reservation/{department}
+    defaults: { _controller: CrcReservBundle:Reservation:create }
+
+crc_reserv_recap:
+    path: /reservation/recapitulatif/{department}
+    defaults: { _controller: CrcReservBundle:Reservation:recap }
+
+crc_reserv_add_devices:
+    path: /reservation/add/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:addDevices }
+
+crc_reserv_edit:
+    path: /reservation/edit/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:edit }
+
+crc_reserv_view:
+    path: /reservation/view/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:view }
+
+crc_reserv_confirm:
+    path: /reservation/confirmer/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:confirm }
+
+crc_reserv_cancel:
+    path: /reservation/cancel/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:cancel }
+
+crc_reserv_list:
+    path: /reservation/list/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:list }
+
+crc_reserv_my_reservations:
+    path: /my/reservations
+    defaults: { _controller: CrcReservBundle:Reservation:mine }
+
+crc_reserv_notify_device:
+    path: /device/notify/missing/{device}/{reservation}/{redirect}
+    defaults: { _controller: CrcReservBundle:Reservation:notifyDeviceDefected, reservation:null, redirect:null }
+
+crc_reserv_replace_device_missing:
+    path: /reservation/device/replace/missing/{device}/{reservation}
+    defaults: { _controller: CrcReservBundle:Reservation:replaceDeviceMissing }
+
+crc_reserv_replace_device_defected:
+    path: /reservation/device/replace/defected/{device}/{reservation}
+    defaults: { _controller: CrcReservBundle:Reservation:replaceDeviceDefected }
+
+crc_reserv_cancel_device:
+    path: /reservation/device/cancel/{device}/{reservation}
+    defaults: { _controller: CrcReservBundle:Reservation:cancelDevice }
+
+crc_reserv_takeout:
+    path: /reservation/sortie/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:takeout }
+
+crc_reserv_takeout_complete:
+    path: /reservation/takeout/completed/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:completeTakeout }
+
+crc_reserv_return:
+    path: /reservation/retour/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:return }
+
+crc_reserv_return_complete:
+    path: /reservation/retour/completed/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:completeReturn }
+
+crc_reserv_extend:
+    path: /reservation/extend/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:extend }
+
+crc_reserv_return_device:
+    path: /reservation/return/device/{device}/{reservation}
+    defaults: { _controller: CrcReservBundle:Reservation:returnDevice }
+
+crc_reserv_return_device_missing:
+    path: /reservation/return/device/missing/{device}/{reservation}
+    defaults: { _controller: CrcReservBundle:Reservation:returnDeviceMissing }
+
+crc_reserv_return_device_defected:
+    path: /reservation/return/device/defected/{device}/{reservation}
+    defaults: { _controller: CrcReservBundle:Reservation:returnDeviceDefected }
+
+crc_reserv_check_incoming_begin:
+    path: /reservation/check/begin
+    defaults: { _controller: CrcReservBundle:Reservation:checkIncomingTakeout }
+
+crc_reserv_check_incoming_end:
+    path: /reservation/check/end
+    defaults: { _controller: CrcReservBundle:Reservation:checkIncomingReturn }
+
+crc_reserv_department_index:
+    path: /department/index
+    defaults: { _controller: CrcReservBundle:Department:index }
+
+crc_reserv_department_create:
+    path: /department/create
+    defaults: { _controller: CrcReservBundle:Department:create }
+
+crc_reserv_department_edit:
+    path: /admin/department/edit/{id}
+    defaults: { _controller: CrcReservBundle:Department:edit }
+
+crc_reserv_department_admin:
+    path: /admin/department/{id}
+    defaults: { _controller: CrcReservBundle:Department:admin }
+
+crc_reserv_department_adduser:
+    path: /admin/department/addmember/{department}
+    defaults: { _controller: CrcReservBundle:Department:addMember }
+
+crc_reserv_department_delete:
+    path: /admin/department/delete/{id}
+    defaults: { _controller: CrcReservBundle:Department:delete }
+
+crc_reserv_department_view_reserv:
+    path: /department/{department}/view/reservation
+    defaults: { _controller: CrcReservBundle:Department:viewReservations }

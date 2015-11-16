@@ -1,0 +1,7 @@
+zogs_utils_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: MyUtilsBundle:Default:index }
+
+zogs_utils_testobject:
+    pattern: /object/test
+    defaults: {_controller: MyUtilsBundle:TestObject:testObjectChange }

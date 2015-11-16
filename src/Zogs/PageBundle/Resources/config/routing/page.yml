@@ -1,0 +1,31 @@
+page:
+    pattern:  /
+    defaults: { _controller: "ZogsPageBundle:Page:index" , _locale:'fr'}
+    requirements: { _locale:fr|en }
+
+page_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ZogsPageBundle:Page:show" }
+
+page_new:
+    pattern:  /new
+    defaults: { _controller: "ZogsPageBundle:Page:new" }
+
+page_create:
+    pattern:  /create
+    defaults: { _controller: "ZogsPageBundle:Page:create" }
+    requirements: { _method: post }
+
+page_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ZogsPageBundle:Page:edit" , _locale: "fr_FR" }
+
+page_update:
+    pattern:  /{id}/{_locale}/update
+    defaults: { _controller: "ZogsPageBundle:Page:update", _locale: "fr_FR"}
+    requirements: { _method: post|put }
+
+page_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ZogsPageBundle:Page:delete" }
+    requirements: { _method: post|delete }

@@ -1,0 +1,15 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+	{{ parent() }} :: <a href="">Ajouter des équipements</a>
+{% endblock %}
+
+
+{% block page_content -%}
+  
+
+  	<h1>Ajouter des équipements</h1>
+  	
+	{{ form(form) }}
+
+{% endblock %}

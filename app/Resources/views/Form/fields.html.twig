@@ -1,0 +1,23 @@
+{% block form_row %}
+    {% spaceless %}
+    <div class="control-group {% if form.vars.valid == false %}control-error{% endif %} {% if form.vars.attr.class is defined %}{% if 'hide' in form.vars.attr.class %}hide{% endif %}{% endif %}" id="control-{{ form.vars.name }}">      	
+        {{ form_label(form, form.vars.label ,{ 'label_attr' : {'class':'control-label'} }) }}
+        <div class="controls">
+            {% for key,value in form.vars.attr %}
+                {% if key == 'data-icon' %}
+        	   <i class="icon-form icon-{{ value }}"></i>
+               {% endif %}
+            {% endfor %}
+          
+
+        	{{ form_widget(form) }}  
+        	
+            {% if form.vars.valid == false %}
+                <div class="help-inline help-error">{{ form_errors(form) }}</div>      
+            {% else %}	
+                <div class="helper help-inline help-error hide"></div>
+            {% endif %}
+        </div>        
+    </div>
+    {% endspaceless %}
+{% endblock form_row %}

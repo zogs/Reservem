@@ -1,0 +1,53 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+	{{ parent() }} :: <a href="{{ path('crc_reserv_my_reservations') }}">Mes réservations</a> :: <a href="{{ path('crc_reserv_edit',{id:reservation.id}) }}">{{ reservation.name }}</a> :: <a href="{{ path('crc_reserv_takeout',{id:reservation.id}) }}">Sortir les équipements</a>
+{% endblock  %}
+
+{% block page_content -%}
+  
+
+  	<h2>Sortir des équipements</h2>
+  	
+  	<h3>Veuillez scanner les équipements suivant avant de les sortir du stock</h3>
+
+	<form action="{{ path('crc_reserv_takeout',{id:reservation.id})}}" method="POST">
+
+  	<input type="text" id="barcode" name="barcode" data-reservation-id="{{ reservation.id }}" data-action="takeout" data-url="{{ path('crc_reserv_device_takeout')}}" data-completed-url="{{ url('crc_reserv_takeout_complete',{ id: reservation.id }) }}">
+  	<div id="ajax-error" class="hide"></div>
+  	<table class="table">
+  		<tr>
+  			<th></th>
+  			<th>Code d'identification</th>
+  			<th>Type d'équipement</th>
+  			<th>Description</th>
+  		</tr>
+
+  		{% for device in reservation.devices %}
+			<tr id="device-{{ device.id }}" class="{% if device.getOnTheGround() == true %}success{% endif %}">
+				<td>
+					{{ device.code }}
+					{% if device.getOnTheGround() == true %}<label class="label label-success">Déjà sorti</label>{% endif %}					
+				</td>				
+				<td>
+					<label for="device[{{device.id}}]">{{ device.type }}</label>
+				</td>
+				<td>
+					{{ device.description }}
+				</td>	
+				<td>
+					{{ barcode({code: device.code, type: 'c128', format: 'svg', height: 30}) }}
+				</td>			
+			</tr>
+			
+  		{% endfor %}  		
+  	</table>
+
+  	<input type="submit" value="Confirmer" class="btn btn-primary">
+
+  	</form>
+
+{% endblock %}
+
+
+

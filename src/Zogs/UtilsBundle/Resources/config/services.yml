@@ -1,0 +1,32 @@
+parameters:
+#    my_utils.example.class: Zogs\UtilsBundle\Example
+
+services:
+#    my_utils.example:
+#        class: %my_utils.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    utils.form.tags_type:
+        class: Zogs\UtilsBundle\Form\Type\TagsType
+        tags:
+            - { name: form.type, alias: tags }
+
+#Profiler matcher
+    utils.profiler_matcher:
+        class: Zogs\UtilsBundle\Profiler\AdminMatcher
+        arguments: ["@security.authorization_checker"]
+
+    image.form.type:
+        class: Zogs\UtilsBundle\Form\Type\ImageType
+        arguments: [@security.context]
+        tags:
+            - { name: form.type, alias: image_type }
+
+#Twig extension
+    utils.twig.age_calculator:
+        class: Zogs\UtilsBundle\Twig\AgeCalculatorExtension
+        tags:
+            - { name: twig.extension }
+    utils.twig.giphy:
+        class: Zogs\UtilsBundle\Twig\GiphyExtension
+        tags:
+            - { name: twig.extension }

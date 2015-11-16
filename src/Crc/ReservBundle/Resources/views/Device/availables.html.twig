@@ -1,0 +1,78 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+	{{ parent() }} :: <a href="{{ path('crc_reserv_device_available',{department:department.id}) }}">{{ department.name }}</a>
+{% endblock %}
+
+{% block page_content -%}
+  
+
+  <h1>Listes des équipements disponibles</h1>
+<table class="table table-hover" style="width:100%;">
+	<tr>
+		<th></th>
+		<th>En Panne</th>
+		<th>Manquante</th>
+		<th>Reservation en cours</th>
+		<th><a href="{{ path('crc_reserv_device_index',{ department:department.id }) }}" class="btn btn-default">Voir tout les équipements</a></th>
+	</tr>
+	
+	{% for type,device in devices %}
+		
+		<tr>
+			<td>
+				{{ device|length }} {{ type }}
+			</td>
+			<td>
+				{% set nb = 0 %}
+				{% for d in device %}
+					{% if d.working == 0 %}
+						{% set nb = nb + 1 %}
+					{% endif %}
+				{% endfor %}
+				<span class="label label-danger">{{ nb }} unités</span>
+			</td>
+			<td>
+			{% set nb = 0 %}
+				{% for d in device %}
+					{% if d.missing == 1 %}
+						{% set nb = nb + 1 %}
+					{% endif %}
+				{% endfor %}
+				<span class="label label-warning">{{ nb }} unités</span>
+			</td>
+			<td>
+				{% for reser in reservations %}
+				<p>
+				{% if reser.hasDeviceType(type) %}
+					
+					<span class="label label-default">{{ reser.countDevicesType(type) }} unités</span>
+
+				{% endif %}
+
+				réservés 
+				du {{ reser.getDateBegin()|localizeddate('short', 'none') }}
+				au {{ reser.getDateEnd()|localizeddate('short', 'none') }}
+
+				par <strong>{{ reser.user.username|capitalize }}</strong>
+				</p>
+				{% endfor %}
+
+				{% if reservations is empty %}
+					<i>Aucune</i>
+				{% endif %}
+			</td>
+			<td>
+				<a href="{{ path('crc_reserv_device_index',{ department:department.id, type: device[0].slug }) }}" class="btn btn-default">Voir la liste</a>
+			</td>
+
+		
+		</tr>
+	{% endfor %}
+</table>
+
+<a class="btn btn-primary btn-large fright clearfix" href="{{ path('crc_reserv_reserver',{department:department.id}) }}">Commencer une réservation</a>
+
+<a href="{{ path('crc_reserv_home') }}" class="btn btn-default fleft">Retour à l'accueil</a>
+
+{% endblock %}

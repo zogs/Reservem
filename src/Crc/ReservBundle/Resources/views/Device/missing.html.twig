@@ -1,0 +1,20 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+	{{ parent() }} :: <a href="{{ path('crc_reserv_my_reservations') }}">Mes réservations</a> :: <a href="{{ path('crc_reserv_edit',{id:reservation.id}) }}">{{ reservation.name }}</a> :: <a href="">Signaler manquant</a>
+{% endblock %}
+
+{% block page_content -%}
+  
+  	<p>&nbsp;</p>
+	{{ form_start(form) }}
+
+		{{ form_row(form.comment, {'label' : "Veuillez décrire pourquoi cet appareil est défectueux :"}) }}
+	
+		<button type="submit" class="btn btn-primary">Envoyer</button>
+		<a class="btn btn-default" href="{{ path('crc_reserv_edit',{'id':reservation.id}) }}">Retour à la reservation</a>
+
+	{{ form_end(form) }}
+
+
+{% endblock %}

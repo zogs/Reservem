@@ -1,0 +1,44 @@
+<nav class="navbar navbar-default navbar-static-top menu-desktop" id="menu-desktop">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{ path('crc_reserv_home') }}">Reservem</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{{ path('crc_reserv_home')}}">Accueil </a></li>
+                {% if app.user is not null and is_granted('IS_AUTHENTICATED_REMEMBERED') == true %}
+                <li><a href="{{ path('crc_reserv_my_reservations') }}">Mes réservations</a></li>
+                
+                {% endif %}
+
+                {% if app.user is null %}
+                 <li><a href="{{ path('fos_user_security_login') }}"> Connexion</a></li>
+                <li><a href="{{ path('fos_user_registration_register') }}"> Inscription</a></li>
+                {% endif %}
+
+            </ul>
+           
+           {% if app.user is not null %}
+            <ul class="nav navbar-nav navbar-right">    
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ app.user.username|capitalize }} :: Mon compte <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ path('fos_user_profile_edit') }}">Paramètres</a></li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('sonata_admin_dashboard') }}"> Administration</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <li><a href="{{ path('sonata_admin_dashboard', {'_switch_user': '_exit'}) }}"> Stop incarnation</a></li>
+                        {% endif %} 
+                        <li class="divider"></li>
+                        <li><a href="{{ path('fos_user_security_logout') }}"> Déconnexion</a></li>                    
+                    </ul>
+                </li>               
+            </ul>
+            {% endif %}
+        </div>
+                {# knp_menu_render('main', {'template': 'MyPageBundle:Menu:main_menu.html.twig'}) #}
+    </div>
+    
+</nav>

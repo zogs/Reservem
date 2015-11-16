@@ -1,0 +1,5 @@
+contact_us:
+    pattern: /contact
+    defaults: { _controller: ZogsContactBundle:Contact:contact }
+    requirements:
+        _method: GET|POST

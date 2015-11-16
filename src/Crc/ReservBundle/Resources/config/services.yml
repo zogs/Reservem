@@ -1,0 +1,55 @@
+services:
+    device.form.edit:
+        class: Crc\ReservBundle\Form\DeviceType    
+        arguments: []
+        tags:
+            - { name: form.type, alias: device_form }
+
+
+    reservation.form.create:
+        class: Crc\ReservBundle\Form\ReservationDevicesType    
+        arguments: [@security.context]
+        tags:
+            - { name: form.type, alias: reservation_form }
+
+    department.form.create:
+        class: Crc\ReservBundle\Form\DepartmentType    
+        arguments: []
+        tags:
+            - { name: form.type, alias: department_form }
+
+    device.form.add:
+        class: Crc\ReservBundle\Form\AddDevicesType    
+        arguments: []
+        tags:
+            - { name: form.type, alias: add_devices_form }
+
+    reservation.form.extend:
+        class: Crc\ReservBundle\Form\ExtendType    
+        arguments: []
+        tags:
+            - { name: form.type, alias: extend_reservation_form }
+
+    department.form.add_member:
+        class: Crc\ReservBundle\Form\DepartmentAddMemberType 
+        arguments: [@security.context]
+        tags:
+            - { name: form.type, alias: department_add_member }
+
+    device.manager:
+        class: Crc\ReservBundle\Manager\DeviceManager
+        arguments: [@service_container]
+
+    reservation.manager:
+        class: Crc\ReservBundle\Manager\ReservationManager
+        arguments: [@service_container]
+
+    department.manager:
+        class: Crc\ReservBundle\Manager\DepartmentManager
+        arguments: [@service_container]
+
+    reservation.mailer:
+        class: Crc\ReservBundle\Mailer\Mailer
+        arguments: [@mailer,@templating,'%mailer.sender.noreply%']
+        tags:
+            - { name: reserv_mailer, alias: reserv_mailer }

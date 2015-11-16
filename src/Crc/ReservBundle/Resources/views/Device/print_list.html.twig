@@ -1,0 +1,13 @@
+{% extends 'CrcReservBundle:Layout:print.html.twig' %}
+
+{% block page_content %}
+
+<h1 style="text-align:center">Liste des équipements {{ devices[0].getType() }}</h1>
+
+{% for device in devices %}
+
+	{% include 'CrcReservBundle:Device:print_label.html.twig' with {'device' : device, 'size':size} %}
+
+{% endfor %}
+
+{% endblock %}

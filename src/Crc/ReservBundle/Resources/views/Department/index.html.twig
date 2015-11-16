@@ -1,0 +1,31 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block page_content -%}
+  
+  <h1>Listes des composantes</h1>
+
+
+<table class="table table-hover" style="width:100%;">
+
+	{% for dpt in departments %}
+		
+		<tr>
+			<td>{{ dpt.name }}</td>
+			<td>{{ dpt.acronyme }}</td>			
+			<td>
+				<ul>
+			{% for admin in dpt.admins %}
+					<li>{{ admin.username}} : {{ admin.email }}</li>
+			{% endfor  %}
+				</ul>
+			</td>
+			<td>
+				<a class="btn btn-default" href="{{ path('crc_reserv_department_edit',{id:dpt.id}) }}">Editer</a>
+			</td>
+		</tr>
+	{% endfor %}
+</table>
+
+<a class="btn btn-primary" href="{{ path('crc_reserv_department_create') }}">Créer une nouvelle composante</a>
+
+{% endblock %}

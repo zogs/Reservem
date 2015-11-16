@@ -1,0 +1,52 @@
+world_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: ZogsWorldBundle:Default:index }
+
+world_location_select_test:
+    pattern: /location/select
+    defaults: { _controller: ZogsWorldBundle:Location:locationSelect }
+    requirements:
+        _method: GET|POST
+
+world_location_select_nextlevel:
+    pattern: /location/levelchildren
+    defaults: { _controller: ZogsWorldBundle:Location:nextGeoLevel }
+    requirements:
+        _method: GET
+
+world_city_search:
+    pattern: /city/search
+    defaults: { _controller: ZogsWorldBundle:City:search }
+    requirements:
+        _method: GET|POST
+
+world_city_view:
+    pattern: /city/view/{city}
+    defaults: { _controller: ZogsWorldBundle:City:view }
+    requirements:
+        _method: GET
+
+world_location_nearest:
+    pattern: /location/near/{lat}/{lon}/{country}
+    defaults: { _controller: ZogsWorldBundle:Location:nearestLatLon, country: France }
+    requirements:
+        _method: GET
+
+
+world_export:
+    pattern: /admin/export
+    defaults: { _controller: ZogsWorldBundle:Export:index }
+    requirements:
+        _method: GET|POST
+
+world_export2:
+    pattern: /export
+    defaults: { _controller: ZogsWorldBundle:Export:index }
+    requirements:
+        _method: GET|POST
+
+world_autocompletecity:
+    pattern: /city/autocomplete/{country}/{prefix}
+    defaults: { _controller: ZogsWorldBundle:City:autoComplete, country:'FR', prefix:'' }
+    requirements:
+        _method: GET

@@ -1,0 +1,33 @@
+<div class="menu-mobile" id="menu-mobile">
+	<div class="mhead">
+		<a href="#mmenu"><span class="ws-icon-menu"></span></a>
+		
+      					      	  	
+														
+	</div>
+				
+	<div id="mmenu">								
+		<ul>
+			<li><a href="/"> Homepage</a></li>
+			<li><a href="#"> Link 1</a></li>
+
+			<li class="Divider Spacer"></li>
+
+			{% if is_granted('IS_AUTHENTICATED_REMEMBERED') == true %}	
+			<li><a href="{{ path('fos_user_profile_edit') }}"> Mon Compte</a></li>
+			<li><a href="{{ path('fos_user_security_logout') }}"> Déconnexion</a></li>
+			{% else %}
+			<li><a href="{{ path('fos_user_security_login')}}"> Connexion</a></li>			
+			<li><a href="{{ path('fos_user_registration_register') }}"> Inscription</a></li>
+			{% endif %}					
+		
+
+			<li class="Divider Spacer"></li>			
+
+			<li><a href="{{ path('contact_us') }}"> Contactez nous</a></li>		
+																		
+		</ul>
+	</div>	
+
+					
+</div>

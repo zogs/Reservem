@@ -1,0 +1,11 @@
+services:
+    sonata.admin.zogs.page:
+        class: Zogs\PageBundle\Admin\PageAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Contenu", label: "Pages" }
+        arguments:
+            - ~
+            - Zogs\PageBundle\Entity\Page
+            - ~
+        calls:
+            - [ setTranslationDomain, [AcmeDemoBundle]]

@@ -1,0 +1,47 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+    {{ parent() }} :: <a href="{{ path('crc_reserv_my_reservations') }}">Mes réservations</a> :: <a href="{{ path('crc_reserv_edit',{id:reservation.id}) }}">{{ reservation.name }}</a> :: <a href="">Etendre</a>
+{% endblock %}
+
+
+{% block page_content -%}
+  
+  	<h2>Prolonger la réservation</h2>
+  	
+  	<h3>Vous allez prolonger la réservation pour tous les équipements suivants.</h3>
+  	<ul>
+  		<li>Si vous voulez prolonger <strong>uniquement certains </strong>équipements, merci de <a href="{{ path('crc_reserv_return',{id:reservation.id}) }}">retourner les autres avant.</a></li>
+  		<li>La prolongation <strong>peut échouer</strong> si des équipements ont été reservés durant la même période.</li>
+  	</ul>
+
+  	<p>
+		<a href="{{ path('crc_reserv_edit',{id: reservation.id}) }}" class="btn btn-xs btn-default">Retour à la réservation</a>		  
+  	</p>
+
+  	<table class="table table-condensed">
+  		
+  		{% for device in reservation.devices %}
+			<tr>
+				<td>
+					{{ device.code }}
+				</td>				
+				<td>
+					<label for="device[{{device.id}}]">{{ device.type }}</label>
+				</td>
+				<td>
+					{{ device.description }}
+				</td>				
+			</tr>
+			
+  		{% endfor %}  		
+  	</table>
+
+  	<h3>Prolonger jusqu'au :</h3>
+	
+	{{ form_start(form) }}
+  	{{ form_row(form.date_end) }}
+  	{{ form_end(form) }}
+  	
+	
+{% endblock %}

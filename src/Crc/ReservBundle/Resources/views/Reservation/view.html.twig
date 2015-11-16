@@ -1,0 +1,60 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+	{{ parent() }} :: <a href="{{ path('crc_reserv_department_view_reserv',{department:reservation.department.id}) }}">{{ reservation.department.name }}</a> :: <a href="{{ path('crc_reserv_edit',{id:reservation.id}) }}">{{ reservation.name }}</a>
+{% endblock  %}
+
+{% block page_content -%}
+  
+
+  	<h2>Résumé de la réservation</h2>
+
+  	<p>
+  		<strong>Titre:</strong> {{ reservation.name }}<br>
+  		<strong>Status:</strong>{% if reservation.ongoing == true  %}
+							<span class="label label-default">Sur le terrain</span>						
+					{% else  %}
+						{% if reservation.confirmed == true %}
+							<span class="label label-info">Confirmé</span>
+						{% else %}
+							<span class="label label-warning">Non confirmé</span>
+						{% endif %}
+					{% endif %}
+					<br>
+  		<strong>Date début:</strong> {{ reservation.getDateBegin()|localizeddate('full', 'none') }}<br>
+  		<strong>Date fin:</strong> {{ reservation.getDateEnd()|localizeddate('full', 'none') }}<br>
+  		<strong>Description:</strong> {{ reservation.comment }}<br>
+  		<strong>Nombre d'équipements:</strong> {{ reservation.devices|length }}
+  	</p>
+
+	<p>
+		<a href="{{ path('crc_reserv_department_view_reserv',{department:reservation.department.id}) }}" class="btn btn-default">Retour</a>
+
+
+  	<table class="table">
+  		<th>Equipement</th>
+  		<th>Code ID</th>
+  		<th>A retourner le</th>
+  		{% for device in reservation.devices %}
+			<tr>
+				<td>
+					{{ device.type }}
+				</td>
+				<td>
+					{{ device.code }}
+				</td>
+				<td>
+					{{ reservation.getDateEnd()|localizeddate('full', 'none') }}
+				</td>
+			
+			</tr>
+			
+  		{% endfor %}
+  		
+  	</table>
+
+  
+
+{% endblock %}
+
+

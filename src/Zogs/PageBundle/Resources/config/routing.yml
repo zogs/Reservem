@@ -1,0 +1,7 @@
+ZogsPageBundle_view:
+    pattern: /page/{slug}
+    defaults: { _controller: ZogsPageBundle:Page:view }
+
+ZogsPageBundle_page:
+    resource: "@ZogsPageBundle/Resources/config/routing/page.yml"
+    prefix: /page/admin

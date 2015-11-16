@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}	
+
+	<div class="container container-centered page-container">
+
+		<div class="page_content">
+
+			<div class="arianne">{% block arianne %}<a class="btn-arianne" href="{{ path('crc_reserv_home') }}">Accueil</a>{% endblock %}</div>
+			
+			<p>&nbsp;</p>
+			{% block page_content %}
+			{% endblock %}
+
+		</div>
+	</div>
+
+{% endblock  %}

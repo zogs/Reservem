@@ -1,0 +1,48 @@
+{% extends ':layout:centered.html.twig' %}
+
+
+{% block page_content %}
+
+	{{ form_start(form) }}
+	        {{ form_errors(form) }}
+
+
+	        {{ form_row(form.country) }}
+
+	        {% if form.region is defined %}
+	        	{{ form_row(form.region) }}
+	        {% endif %}
+
+	        {% if form.departement is defined %}
+	        	{{ form_row(form.departement) }}
+	        {% endif %}
+
+	        {% if form.district is defined %}
+	        	{{ form_row(form.district) }}
+	        {% endif %}
+
+	        {% if form.division is defined %}
+	        	{{ form_row(form.division) }}
+	        {% endif %}
+
+	        {% if form.city is defined %}
+	        	{{ form_row(form.city) }}
+	        {% endif %}
+
+
+	        <input type="submit" value="Envoyer">
+
+	 {{ form_end(form) }}
+
+	{% if location is not null %}
+		{{ dump(location) }}		
+	{% endif %}
+
+
+		
+
+
+{% endblock %}
+
+
+

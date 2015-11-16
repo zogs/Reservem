@@ -1,0 +1,7 @@
+cron_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MyCronBundle:Default:index }
+
+cron_test:
+    path: /test
+    defaults: { _controller: MyCronBundle:CronTask:test }

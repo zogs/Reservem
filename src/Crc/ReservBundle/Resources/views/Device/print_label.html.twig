@@ -1,0 +1,27 @@
+{% if size == null %}
+<div style="width:24%;margin:17px 2px; padding: 5px;float:left; height:150px; border:1px solid grey; border-radius:10px;text-align:center;">
+	{{ device.type }}
+	<div style="font-size:16px">{{ device.code }}</div>
+	
+	{{ barcode({code: device.code, type: 'c128', format: 'svg', width:1, height: 60}) }}
+		
+</div>
+{% endif %}
+
+{% if size is defined and size == 'small' %}
+<div style="width:24%;margin:10px 2px; padding: 5px;float:left; height:100px; border:1px solid grey; border-radius:10px;text-align:center;">
+	<div style="font-size:14px">{{ device.code }}</div>
+	
+	{{ barcode({code: device.code, type: 'c128', format: 'svg', width:1, height: 60}) }}
+		
+</div>
+{% endif %}
+
+{% if size is defined and size == 'mini' %}
+<div style="width:18%;margin:17px 2px; padding: 5px;float:left; height:50px; border:1px solid grey; border-radius:10px;text-align:center;">
+	{{ barcode({code: device.code, type: 'c128', format: 'svg', width:1, height: 30}) }}
+	<br/><div style="font-size:8px;margin-top:-3px;">{{ device.code }}</div>
+	
+		
+</div>
+{% endif %}

@@ -1,0 +1,24 @@
+parameters:
+#    ws_mailer.example.class: Ws\MailerBundle\Example
+
+services:
+#    ws_mailer.example:
+#        class: %ws_mailer.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    #MAILER
+    z_mailer:
+        class: Zogs\MailerBundle\Mailer\Mailer
+        arguments: [@mailer,@templating,'%mailer.sender.noreply%']
+        tags:
+            - { name: z_mailer, alias: z_mailer }
+    #MANAGER
+    z_mailer.settings.manager:
+        class: Zogs\MailerBundle\Manager\SettingsManager
+        arguments: [@service_container]
+
+    #FORM
+    z_mailer.settings.form.type:
+        class: Zogs\MailerBundle\Form\Type\ZogsMailerSettingsType 
+        arguments: [@security.context]
+        tags:
+            - { name: form.type, alias: mailer_settings_type }

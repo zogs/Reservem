@@ -1,0 +1,61 @@
+<?php
+
+namespace Zogs\WorldBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+use Zogs\WorldBundle\Entity\City;
+use Zogs\WorldBundle\Entity\Location;
+
+class CityController extends Controller
+{
+    public function autoCompleteAction($country,$prefix)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $cities = $em->getRepository('ZogsWorldBundle:City')->findCitiesSuggestions(10,$prefix,$country);
+
+        foreach($cities as $k => $city){
+
+            $city->upperstate = $em->getRepository('ZogsWorldBundle:State')->findStateByCodes($city->getCC1(),$city->getADM1(),$city->getADM2(),$city->getADM3(),$city->getADM4());
+
+            $cities[$k] = array();
+            $cities[$k]['name'] = $city->getName();
+            $cities[$k]['state'] = $city->upperstate->getName();
+            $cities[$k]['token'] = preg_split('/[ -]/',$city->getName().' '.$city->upperstate->getName());
+            $cities[$k]['id'] = $city->getId();
+            $cities[$k]['value'] = $city->getId();
+
+        }
+
+        return new JsonResponse($cities);
+    }
+
+    public function searchAction(Request $request)
+    {        
+        $location = new Location();
+        $form = $this->createForm('city_to_location_type',$location);
+
+        $form->handleRequest($request);
+
+        if($form->isValid()){
+
+            $location = $form->getData();
+            return $this->redirect($this->generateUrl('world_city_view',array('city'=>$location->getCity()->getId())));        
+        }
+        
+        return $this->render('ZogsWorldBundle:City:form.html.twig',array(
+            'form' => $form->createView()
+            ));
+    }
+
+    public function viewAction(City $city)
+    {        
+        return $this->render('ZogsWorldBundle:City:view.html.twig',array(
+            'city'=>$city
+            ));
+    }
+
+}

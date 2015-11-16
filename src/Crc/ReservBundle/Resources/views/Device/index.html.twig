@@ -1,0 +1,49 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block page_content -%}
+  
+  <h1>Listes des équipements</h1>
+
+  <a class="btn btn-default" href="{{ app.request.headers.get('referer') }}">Retour</a>
+  <a class="btn btn-default" href="{{ path('crc_reserv_device_print_list',{department: department.id}) }}">Imprimer la liste</a>
+  {% if department.admins.contains(app.user) %}
+  <a class="btn btn-primary" href="{{ path('crc_reserv_device_create',{device: devices[0].id}) }}">Ajouter des équipements</a>
+{% endif %}
+<table class="table table-hover" style="width:100%;">
+	<tr>
+		<th>Code</th>
+		<th>Type</th>
+		<th>Statut</th>
+		<th>Action</th>
+	</tr>
+	{% for device in devices %}
+		
+		<tr>
+			<td>
+				{{ device.code }}
+			</td>
+			<td>
+				{{ device.type }}
+			</td>
+			<td>
+				{% if device.missing == true %}<span class="label label-danger">Perdu</span>
+				{% elseif device.working == false %}<span class="label label-warning">En panne</span>
+				{% elseif device.getOnTheGround() == true %}<span class="label label-default">Terrrain</span>
+				{% else  %}<span class="label label-success">En stock</span>{% endif %}
+			</td>
+			<td>
+				{% if department.admins.contains(app.user) %}
+					<a class="btn btn-default btn-xs" href="{{ path('crc_reserv_device_edit',{device:device.id})}}">Editer</a>
+					<a class="btn btn-default btn-xs" href="{{ path('crc_reserv_device_remove',{device:device.id})}}">Supprimer</a>
+				{% endif %}
+				<a class="btn btn-default btn-xs" href="{{ path('crc_reserv_device_print_label',{device:device.id})}}">Imprimer</a>
+				<a class="btn btn-default btn-xs" href="{{ path('crc_reserv_device_print_label',{device:device.id, size:'small'})}}">Small</a>
+				<a class="btn btn-default btn-xs" href="{{ path('crc_reserv_device_print_label',{device:device.id, size:'mini'})}}">Mini</a>
+			</td>
+
+		
+		</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}

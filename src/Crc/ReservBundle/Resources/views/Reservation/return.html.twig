@@ -1,0 +1,48 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+	{{ parent() }} :: <a href="{{ path('crc_reserv_my_reservations') }}">Mes réservations</a> :: <a href="{{ path('crc_reserv_edit',{id:reservation.id}) }}">{{ reservation.name }}</a> :: <a href="{{ path('crc_reserv_return',{id:reservation.id}) }}">Retourner les équipements</a>
+{% endblock  %}
+
+{% block page_content -%}
+  
+
+  	<h2>Retourner des équipements</h2>
+  	
+  	<h3>Veuillez scanner les équipements suivants :</h3>
+
+	<form action="{{ path('crc_reserv_return',{id:reservation.id})}}" method="POST">
+
+	<input type="text" id="barcode" name="barcode" data-reservation-id="{{ reservation.id }}" data-action="return" data-url="{{ path('crc_reserv_device_return')}}" data-completed-url="{{ url('crc_reserv_return_complete',{ id: reservation.id }) }}">
+  	<div id="ajax-error" class="hide"></div>
+
+  	<table class="table">
+  		
+  		{% for device in reservation.devices %}
+  			{% if device.getOnTheGround() == true %}
+			<tr id="device-{{ device.id }}">
+				<td>
+					{{ device.code }}
+				</td>				
+				<td>
+					<label for="device[{{device.id}}]">{{ device.type }}</label>
+				</td>	
+				<td>
+					{#<a href="{{ path('crc_reserv_return_device',{device:device.id,reservation:reservation.id}) }}" class="btn btn-default btn-xs">Retourner</a>#}
+					<a href="{{ path('crc_reserv_return_device_missing',{device:device.id,reservation:reservation.id}) }}" class="btn btn-xs">Signaler manquant</a>					
+					<a href="{{ path('crc_reserv_notify_device',{device:device.id,reservation:reservation.id,redirect:'crc_reserv_return_device_defected'}) }}" class="btn btn-xs">Signaler défectueux</a>
+				</td>			
+			</tr>
+			{% endif %}	
+			
+  		{% endfor %}  		
+  	</table>
+
+  	
+  	
+
+  	</form>
+
+{% endblock %}
+
+

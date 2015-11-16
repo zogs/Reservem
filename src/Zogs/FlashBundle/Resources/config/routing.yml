@@ -1,0 +1,6 @@
+flash_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: ZogsFlashBundle:Default:index }
+flash_test:
+    pattern: /test
+    defaults: { _controller: ZogsFlashBundle:Default:test }

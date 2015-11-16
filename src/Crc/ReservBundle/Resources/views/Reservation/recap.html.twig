@@ -1,0 +1,86 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+	{{ parent() }} :: <a href="{{ path('crc_reserv_my_reservations') }}">Mes réservations</a> :: <a href="{{ path('crc_reserv_edit',{id:reservation.id}) }}">{{ reservation.name }}</a>
+{% endblock  %}
+
+{% block page_content -%}
+  
+
+  	<h2>Résumé de la réservation</h2>
+
+  	<p>
+  		<strong>Titre:</strong> {{ reservation.name }}<br>
+  		<strong>Status:</strong>{% if reservation.ongoing == true  %}
+							<span class="label label-default">Sur le terrain</span>						
+					{% else  %}
+						{% if reservation.confirmed == true %}
+							<span class="label label-info">Confirmé</span>
+						{% else %}
+							<span class="label label-warning">Non confirmé</span>
+						{% endif %}
+					{% endif %}
+					<br>
+  		<strong>Date début:</strong> {{ reservation.getDateBegin()|localizeddate('full', 'none') }}<br>
+  		<strong>Date fin:</strong> {{ reservation.getDateEnd()|localizeddate('full', 'none') }}<br>
+  		<strong>Description:</strong> {{ reservation.comment }}<br>
+  		<strong>Nombre d'équipements:</strong> {{ reservation.devices|length }}
+  	</p>
+
+  	{% if reservation.confirmed == false %}
+  	<p>
+  		<i>Vous pouvez toujours ajouter des équipements, mais attention, tant que la réservation n'est pas confirmé, les équipements ne sont pas réservés et peuvent être utilisés par un autre utilisateur ! </i>
+  	</p>
+  	{% endif %}
+
+	<p>
+		<a href="{{ path('crc_reserv_my_reservations') }}" class="btn btn-default">Retour</a>
+
+		{% if reservation.user == app.user %}		
+	  		{% if reservation.ongoing == false %}
+			<a href="{{ path('crc_reserv_add_devices',{id: reservation.id}) }}" class="btn btn-info">Ajouter des équipements</a>
+	  		<a href="{{ path('crc_reserv_takeout', { id:reservation.id })}}" class="btn btn-warning">Sortir les équipements</a>
+			<a href="{{ path('crc_reserv_cancel',{id:reservation.id}) }}" class="btn btn-danger">Annuler la réservation</a>
+			{% else %}
+		  	<a href="{{ path('crc_reserv_extend',{id:reservation.id}) }}" class="btn btn-info">Prolonger la réservation</a>
+		  	<a href="{{ path('crc_reserv_return', { id:reservation.id })}}" class="btn btn-danger">Retourner les équipements</a>
+	  		{% endif %}
+	  	{% endif %}
+
+  	<table class="table">
+  		<th>Equipement</th>
+  		<th>Code ID</th>
+  		<th>A retourner le</th>
+  		<th>Action</th>
+  		{% for device in reservation.devices %}
+			<tr>
+				<td>
+					{{ device.type }}
+				</td>
+				<td>
+					{{ device.code }}
+				</td>
+				<td>
+					{{ reservation.getDateEnd()|localizeddate('full', 'none') }}
+				</td>
+				
+				<td>
+					{% if reservation.user == app.user %}
+						{% if reservation.confirmed == false %}
+						<a href="{{ path('crc_reserv_cancel_device',{device:device.id,reservation:reservation.id}) }}" class="btn btn-default btn-xs">Annuler</a>
+						{% endif %}
+						<a href="{{ path('crc_reserv_replace_device_missing',{device:device.id,reservation:reservation.id}) }}" class="btn btn-xs">Signaler manquant</a>
+						<a href="{{ path('crc_reserv_notify_device',{device:device.id,reservation:reservation.id,redirect:'crc_reserv_replace_device_missing'}) }}" class="btn btn-xs">Signaler défectueux</a>
+					{% endif %}
+				</td>
+			</tr>
+			
+  		{% endfor %}
+  		
+  	</table>
+
+  
+
+{% endblock %}
+
+

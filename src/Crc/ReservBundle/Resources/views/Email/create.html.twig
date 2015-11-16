@@ -1,0 +1,22 @@
+{% extends 'ZogsMailerBundle:Template:personal.html.twig' %}
+
+{% block title %}
+    <strong>Bonjour,</strong><br />
+{% endblock title %}
+
+{% block content %}
+    <table cellpadding="0" cellspacing="0" border="0" class="content" style="background-color:#FFF;  position: relative; width:100%; padding:0 10%;">
+        <tbody>
+            <tr height="50">
+                <td>
+                    <strong>Vous avez réservé {{ reservation.devices|length }} équipements du {{ reservation.getDateBegin()|localizeddate('full','none') }} au {{ reservation.getDateEnd()|localizeddate('full','none') }}.
+                </td>
+            </tr>
+            <tr>
+                <td height="50">
+                    Retrouver à tout moment le récapitulatif de votre réservation via cette addresse <a href="{{ path('crc_reserv_view', { id:reservation.id })}}" title="Votre réservation">{{ path('crc_reserv_view', { id:reservation.id })}}</a>  
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock content %}

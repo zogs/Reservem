@@ -1,0 +1,90 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+	{{ parent() }} :: <a href="{{ path('crc_reserv_home') }}">{{ department.name }}</a> :: <a href="">Les réservations</a>
+{% endblock %}
+
+
+{% block page_content -%}
+  
+  <h1>{% if department.logo %}<img class="dpt-logo-small" src="{{ asset(department.logo.getWebPath) }}">{% endif  %} {{ department.name }}</h1>
+
+
+<h3>Réservation en cours</h3>
+<ul class="nav nav-tabs" id="reservation-list">
+  <li class="active"><a href="#reserv-en-cours" data-toggle="tab">En cours</a></li>
+  <li><a href="#reserv-tocome" data-toggle="tab">Prévu</a></li>
+  <li><a href="#reserv-ancienne" data-toggle="tab">Ancienne</a></li>
+</ul>
+<div class="tab-content">
+	<div class="tab-pane active" id="reserv-en-cours">
+		<table class="table table-striped table-bordered">
+			{% set i = 0 %}
+			{% for r in reservations %}
+				{% if r.ongoing == true %}
+				<tr>
+					<td>{{ r.name }}</td>
+					<td>par {{ r.user.username|capitalize }}</td>
+					<td>{{ r.devices|length }} équipements<br><a href="{{ path('crc_reserv_view',{id:r.id}) }}">Voir les équipements</a></td>
+					<td>du {{ r.dateBegin|localizeddate('full','none') }}</td>
+					<td>au {{ r.dateEnd|localizeddate('full','none') }}</td>
+				</tr>
+				{% set i = i + 1 %}
+				{% endif %}
+			{% endfor %}
+			{% if i == 0 %}		
+			<tr>
+				<td><i>Pas de réservation en cours...</td>
+			</tr>
+			{% endif %}
+		</table>	
+	</div>
+	<div class="tab-pane" id="reserv-tocome">
+		<table class="table table-striped table-bordered">
+			{% set i = 0 %}
+			{% for r in reservations %}
+				{% if r.confirmed == true and r.ongoing == false %}
+				<tr>
+					<td>{{ r.name }}</td>
+					<td>par {{ r.user.username|capitalize }}</td>
+					<td>{{ r.devices|length }} équipements<br><a href="{{ path('crc_reserv_view',{id:r.id}) }}">Voir les équipements</a></td>
+					<td>du {{ r.dateBegin|localizeddate('full','none') }}</td>
+					<td>au {{ r.dateEnd|localizeddate('full','none') }}</td>
+				</tr>
+				{% set i = i + 1 %}
+				{% endif %}
+			{% endfor %}
+			{% if i == 0 %}		
+			<tr>
+				<td><i>Pas de réservation en cours...</td>
+			</tr>
+			{% endif %}
+		</table>	
+	</div>
+	<div class="tab-pane" id="reserv-ancienne">
+		<table class="table table-striped table-bordered">
+			{% set i = 0 %}
+			{% for r in reservations %}
+				{% if r.active == false %}
+				<tr>
+					<td>{{ r.name }}</td>
+					<td>par {{ r.user.username|capitalize }}</td>
+					<td>{{ r.devices|length }} équipements<br><a href="{{ path('crc_reserv_view',{id:r.id}) }}">Voir les équipements</a></td>
+					<td>du {{ r.dateBegin|localizeddate('full','none') }}</td>
+					<td>au {{ r.dateEnd|localizeddate('full','none') }}</td>
+				</tr>
+				{% set i = i + 1 %}
+				{% endif %}
+			{% endfor %}
+			{% if i == 0 %}		
+			<tr>
+				<td><i>Pas de réservation en cours...</td>
+			</tr>
+			{% endif %}
+		</table>		
+	</div>
+</div>
+<a class="btn   btn-primary" href='{{ path("crc_reserv_device_available", {department:department.id}) }}'>Faire une réservation</a>
+
+
+{% endblock page_content %}

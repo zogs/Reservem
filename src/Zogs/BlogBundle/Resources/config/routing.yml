@@ -1,0 +1,29 @@
+blog_homepage:
+    pattern:  /blog
+    defaults: { _controller: ZogsBlogBundle:Default:index }
+
+blog_ajouter:
+    pattern:  /ajouter
+    defaults: { _controller: ZogsBlogBundle:Default:ajouter }
+
+blog_voir:
+    pattern:  /{id}/voir
+    defaults: { _controller: ZogsBlogBundle:Default:voir }
+    requirements:
+        id: \d+
+
+blog_editer:
+    pattern:  /{id}/editer
+    defaults: { _controller: ZogsBlogBundle:Default:editer }
+    requirements:
+        id: \d+
+
+blog_supprimer:
+    pattern:  /{id}/supprimer
+    defaults: { _controller: ZogsBlogBundle:Default:supprimer }
+    requirements:
+        id: \d+
+
+blog_admin_index:
+    pattern: /admin/blog/article/index
+    defaults: { _controller: ZogsBlogBundle:Admin:index }

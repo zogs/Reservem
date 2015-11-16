@@ -1,0 +1,49 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block page_content -%}
+  
+
+  	<h2>Résumé de la réservation</h2>
+
+  	<p>
+  		<strong>Titre:</strong> {{ reservation.name }}<br>
+  		<strong>Date début:</strong> {{ reservation.getDateBegin()|localizeddate('full', 'none') }}<br>
+  		<strong>Date fin:</strong> {{ reservation.getDateEnd()|localizeddate('full', 'none') }}<br>
+  		<strong>Description:</strong> {{ reservation.comment }}<br>
+  	</p>
+
+  	<table class="table">
+  		<th>Equipement</th>
+  		<th>Code d'identification</th>
+  		<th>Retour le</th>
+  		<th>Description</th>
+  		<th>Commentaire</th>
+  		<th>Action</th>
+  		{% for device in reservation.devices %}
+			<tr>
+				<td>
+					{{ device.type }}
+				</td>
+				<td>
+					{{ device.code }}
+				</td>
+				<td>
+					{{ reservation.getDateEnd()|localizeddate('full', 'none') }}
+				</td>
+				<td>
+					{{ device.description }}
+				</td>
+				<td>
+					{{ device.comment }}
+				</td>
+				<td>
+					<a href="" class="btn">Signaler manquant</a>
+					<a href="" class="btn">Signaler défectueux</a>
+				</td>
+			</tr>
+			
+  		{% endfor %}
+  	</table>
+
+  	
+{% endblock %}

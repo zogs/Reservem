@@ -1,0 +1,71 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+
+{% endblock %}
+
+{% block page_content -%}
+  
+  	<h1>Bienvenue sur le site de réservation du CRC (en phase de test)</h1>
+
+     {% if app.user is not null and is_granted('IS_AUTHENTICATED_REMEMBERED') == true %}
+            <h5>Bonjour {{ app.user.username }}, voici les composantes disponibles :</h5>
+    {% else %}
+        <p>
+            <i>Veuillez vous <a href='{{ path('fos_user_security_login') }}'>connecter </a> pour accèder aux services.</i>
+        </p>
+        <p>
+            <a class="btn btn-primary" href='{{ path('fos_user_security_login') }}'>Connexion</a>
+        </p>
+    {% endif %}
+
+  	
+
+            <table class="table table-striped">
+              <thead>
+                <th>Nom</th>
+                <th>Logo</th>
+                <th>Membres</th>
+                <th>Action</th>
+              </thead>
+  		{% for dpt in departments %}
+
+                <tr>
+                    <td>{{ dpt.name }}</td>
+                    <td>{% if dpt.logo %}<img class="dpt-logo-small" src="{{ asset(dpt.logo.getWebPath) }}">{% endif  %}</td>
+                    <td>{{ dpt.members|length }} membres</td>
+                    <td>
+
+                    {% if app.user is not null and is_granted('IS_AUTHENTICATED_REMEMBERED') == true %}
+                        {% if dpt.isMember(app.user) %}
+                            <a class="btn btn-primary" href='{{ path("crc_reserv_device_available", {department:dpt.id}) }}'>Réserver</a>
+                            <a class="btn btn-default" href='{{ path("crc_reserv_department_view_reserv", {department:dpt.id}) }}'>Voir les réservations</a>
+                            {% if dpt.isAdmin(app.user) %}<a class='btn btn-default' href='{{ path("crc_reserv_department_admin",{"id":dpt.id}) }}'>Administrer</a>{% endif %}
+                            {% if  is_granted('ROLE_ADMIN') %}
+                                              <a href="{{ path('crc_reserv_department_edit',{id:dpt.id}) }}">Editer</a>
+                                              <a href="{{ path('crc_reserv_department_delete',{id:dpt.id}) }}">Supprimer</a>
+                                        {% endif  %}
+                        {% else  %}
+                              <i>Vous n'êtes pas membre de cette composante</i>
+                        {% endif %}
+                    {% endif %}
+                    </td>
+                </tr>
+
+            {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                             {% if app.user is not null and is_granted('IS_AUTHENTICATED_REMEMBERED') == true %}
+                                <a class="fright clearfix btn btn-primary" href='{{ path("crc_reserv_my_reservations") }}'>Voir mes réservations</a>
+                            {% else %}
+                                <a class="btn btn-primary" href='{{ path('fos_user_security_login') }}'>Connexion</a>
+                            {% endif %}
+                            </td>
+                    </tr>
+      </table>
+
+
+{% endblock %}

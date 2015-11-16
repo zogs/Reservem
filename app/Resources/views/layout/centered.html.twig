@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}	
+
+	<div class="container container-centered page-container">
+
+		<div class="page_content">
+
+			<p>{% block arianne %}:: {% endblock %}</p>
+			
+			{% block page_content %}
+			{% endblock %}
+
+		</div>
+	</div>
+
+{% endblock  %}
+

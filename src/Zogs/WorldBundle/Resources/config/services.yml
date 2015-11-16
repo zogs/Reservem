@@ -1,0 +1,44 @@
+parameters:
+#    my_world.example.class: My\WorldBundle\Example
+
+services:
+#    my_world.example:
+#        class: %my_world.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    world.form.type.autocompletecity:
+        class: Zogs\WorldBundle\Form\Type\CityToLocationType 
+        arguments: [@doctrine.orm.entity_manager,@router]
+        tags:
+            - { name: form.type, alias: city_to_location_type }
+        
+
+    world.form.type.locationSelectorType:
+        class: Zogs\WorldBundle\Form\Type\LocationSelectorType
+        arguments: [@doctrine.orm.entity_manager,@router]
+        tags:
+            - { name:form.type, alias: location_selector }
+
+
+    world.location_manager:
+        class: Zogs\WorldBundle\Manager\LocationManager
+        arguments: [@doctrine.orm.entity_manager]
+
+    world.map_manager:
+        class: Zogs\WorldBundle\Geomapper\MapManager
+        arguments: [@service_container]
+
+    world.gmap:
+        class: Zogs\WorldBundle\Geomapper\GoogleMapAPI        
+
+    world.locationip.service:
+        class: Zogs\WorldBundle\Controller\LocationFromIpController
+        arguments: [@service_container]
+
+    world.exporter.sql:
+        class: Zogs\WorldBundle\Exporter\SQLExporter
+        scope: request
+        arguments: [@request,%database_name%,%database_user%,%database_password%]
+
+    world.importer.sql:
+        class: Zogs\WorldBundle\Importer\SQLImporter
+        arguments: [%database_name%,%database_user%,%database_password%]

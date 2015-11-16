@@ -1,0 +1,22 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+	{{ parent() }} :: <a href="{{ path('crc_reserv_device_available',{department:department.id}) }}">{{ department.name }}</a> :: <a href="">Réserver</a>
+{% endblock  %}
+
+{% block page_content -%}
+
+  	<h2>Choisissez un créneau de réservation</h2>
+  	<p>&nbsp;</p>
+  	
+	{{ form_start(form) }}
+
+		{{ form_row(form.date_begin)}}
+
+		{{ form_row(form.date_end)}}
+
+		<button type="submit" class='btn btn-primary fright'>Continuer</button>
+
+	{{ form_end(form) }}
+
+{% endblock %}

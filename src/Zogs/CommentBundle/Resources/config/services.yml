@@ -1,0 +1,9 @@
+parameters:
+
+services:
+    comment_bundle.listener.comment:
+        class: Zogs\CommentBundle\EventListener\CommentListener
+        arguments: [@doctrine.orm.entity_manager,@router,@mailer]
+        scope: container
+        tags:
+            - { name: kernel.event_subscriber }

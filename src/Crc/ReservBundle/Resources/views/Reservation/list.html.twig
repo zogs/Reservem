@@ -1,0 +1,73 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+	{{ parent() }} :: <a href="{{ path('crc_reserv_my_reservations') }}">Mes réservations</a>
+{% endblock %}
+
+{% block page_content -%}
+  
+  <h1>Listes de mes réservations</h1>
+<table class="table table-hover" style="width:100%;">
+	<tr>
+		<th>Nom</th>
+		<th>Status</th>
+		<th>Début</th>
+		<th>A rendre le</th>
+		<th>Description</th>
+		<th>Actions</th>
+	</tr>
+	
+	{% for reservation in reservations %}
+		
+		<tr>
+			<td>
+				{{ reservation.name }}
+			</td>
+			<td>				
+				{% if reservation.active == false %}
+					<span class="label label-default">Deleted</span>
+				{% else %}
+					{% if reservation.ongoing == true  %}
+						<span class="label label-success">En cours</span>
+					{% else  %}
+						{% if reservation.confirmed == true %}
+							<span class="label label-info">Confirmé</span>
+						{% endif %}
+					{% endif %}
+				{% endif %}
+			</td>
+			<td>
+				{{ reservation.getDateBegin()|localizeddate('full','none') }}
+			</td>
+			<td>
+				{{ reservation.getDateEnd()|localizeddate('full','none') }}
+			</td>
+			<td>				
+				<i><small>{{ reservation.devices|length }} équipements au total</small></i>
+			</td>
+			<td>
+				<a href="{{ path('crc_reserv_edit', { id:reservation.id })}}" class="btn btn-sm btn-info">Voir la réservation</a>
+				{% if reservation.ongoing == true %}
+					<a href="{{ path('crc_reserv_extend',{id:reservation.id}) }}" class="btn btn-warning">Prolonger</a>
+					<a href="{{ path('crc_reserv_return', { id:reservation.id })}}" class="btn btn-sm btn-danger">Retourner les équipements</a>
+				{% else  %}
+					<a href="{{ path('crc_reserv_takeout', { id:reservation.id })}}" class="btn btn-sm btn-warning">Sortir les équipements</a>
+					<a href="{{ path('crc_reserv_cancel',{id:reservation.id}) }}" title="Supprimer la réservation" class="btn btn-sm btn-default"> Annuler</a>
+				{% endif %}
+			</td>
+
+		
+		</tr>
+	{% endfor %}
+
+	{% if reservations is empty %}
+		<tr>
+			<td colspan="6"><i>Vous n'avez pas de réservation de prévue...</i></td>
+		</tr>
+	{% endif %}
+</table>
+
+
+<a class="btn btn-default" href="{{ path('crc_reserv_home') }}">Retour à l'accueil</a>
+
+{% endblock %}

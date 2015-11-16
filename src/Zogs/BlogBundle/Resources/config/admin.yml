@@ -1,0 +1,11 @@
+services:
+    sonata.admin.zogs.blog_article:
+        class: Zogs\BlogBundle\Admin\ArticleAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Contenu", label: "Blogs" }
+        arguments:
+            - ~
+            - Zogs\BlogBundle\Entity\Article
+            - ~
+        calls:
+            - [ setTranslationDomain, [AcmeDemoBundle]]

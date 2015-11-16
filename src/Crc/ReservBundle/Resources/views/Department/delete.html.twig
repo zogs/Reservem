@@ -1,0 +1,12 @@
+{% extends 'CrcReservBundle:Layout:default.html.twig' %}
+
+{% block arianne %}
+	{{ parent() }} :: <a href="">Administration</a> :: <a href="">Supprimer département</a>
+{% endblock %}
+
+{% block page_content -%}
+  
+ {{ form(form) }}
+
+ 
+{% endblock %}

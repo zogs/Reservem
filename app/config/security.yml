@@ -1,0 +1,77 @@
+security:
+    #ROLES
+    role_hierarchy:
+        ROLE_ADMIN:       
+            - ROLE_USER
+            - ROLE_SONATA_ADMIN
+        ROLE_SUPER_ADMIN: 
+            - ROLE_USER         
+            - ROLE_ADMIN
+            - ROLE_SONATA_ADMIN
+            - ROLE_ALLOWED_TO_SWITCH
+    encoders:
+        #Password Encoder
+        FOS\UserBundle\Model\UserInterface: { id: user.password_encoder }
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false        
+        main:
+            pattern: ^/
+            anonymous: true
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+                check_path: fos_user_security_check
+                login_path:  fos_user_security_login
+                use_referer: true
+                always_use_default_target_path : false
+                default_target_path: crc_reserv_home
+                remember_me: true
+                success_handler: login_success.handler
+            remember_me:
+                key :    %secret%
+                lifetime: 3000000000
+                path:    /
+                domain:  ~
+            logout:       
+                path: fos_user_security_logout
+                target: crc_reserv_home
+                success_handler: logout_success.handler
+            switch_user:  true
+            entry_point: entry_point.user_login
+            oauth:
+                resource_owners:
+                  facebook: "/%locale%/login/check-facebook"
+                login_path: /oauth-connect
+                failure_path: /oauth-connect
+                oauth_user_provider:
+                  service: user.oauth.user_provider
+                success_handler: user.oauth.success_handler
+
+    access_control:
+        # Routes are prefixed by ther user locale.
+        # - { path: ^/home, roles: ROLE, ip: X.X.X.X, host: example\.com$, methods: [POST, PUT] }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/\w\w/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/\w\w/event/add/me/, role: ROLE_USER }
+        #- { path: ^/\w\w/event/cancel/me/, role: ROLE_USER }
+        #- { path: ^/\w\w/event/create, role: ROLE_USER }
+        #- { path: ^/\w\w/event/invite/, role: ROLE_USER }
+        #- { path: ^/\w\w/event/invitation, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/\w\w/event/alert/, role: ROLE_USER }        
+        #- { path: ^/\w\w/event/alert/send, role: ROLE_ADMIN }
+        #- { path: ^/\w\w/event/follow/, role: ROLE_USER }
+        - { path: ^/reserver, role: ROLE_USER }
+        - { path: ^/reservation, role: ROLE_USER }
+        - { path: ^/superadmin/, role: ROLE_ADMIN }
+        - { path: ^/world/admin/export, role: ROLE_ADMIN }
+        - { path: ^/superadmin/dashboard, role: ROLE_SONATA_ADMIN }
+        #- { path: ^/\w\w/flashbag/, role: ROLE_ADMIN }
+        #- { path: ^/\w\w/stats/, role: ROLE_ADMIN }

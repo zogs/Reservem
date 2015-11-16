@@ -1,0 +1,25 @@
+{# list of icons #}
+{# set icons = {'success':'checkmark','info':'info','warning':'spam','error':'blocked','danger':'blocked'} #}
+
+{# display error with the right CSS class #}
+{% if type == 'error' %}
+	{% set type='danger' %}
+{% endif %}
+
+<div class="alert alert-{{ type }} alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<div class="alert-container">
+		<div class="alert-content">
+			<table>
+				<tr>
+					<td>
+						<span class="alert-message">							
+							{{ message|raw }}											
+						</span>    
+					</td>
+				</tr>
+			</table>				
+			<div class="alert-progress"></div>					
+		</div>
+	</div>
+</div>
