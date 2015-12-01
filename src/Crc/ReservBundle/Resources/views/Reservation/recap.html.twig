@@ -42,7 +42,7 @@
 	  		<a href="{{ path('crc_reserv_takeout', { id:reservation.id })}}" class="btn btn-warning">Sortir les équipements</a>
 			<a href="{{ path('crc_reserv_cancel',{id:reservation.id}) }}" class="btn btn-danger">Annuler la réservation</a>
 			{% else %}
-		  	<a href="{{ path('crc_reserv_extend',{id:reservation.id}) }}" class="btn btn-info">Prolonger la réservation</a>
+		  	<a href="{{ path('crc_reserv_extend',{id:reservation.id}) }}" class="btn btn-warning">Prolonger la réservation</a>
 		  	<a href="{{ path('crc_reserv_return', { id:reservation.id })}}" class="btn btn-danger">Retourner les équipements</a>
 	  		{% endif %}
 	  	{% endif %}

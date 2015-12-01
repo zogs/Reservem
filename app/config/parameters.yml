@@ -16,3 +16,5 @@ parameters:
     locale: fr
     secret: cearvtybetvzceaefetgrytgher
     app.version: 0.1beta
+    world.importer.load_as_fixtures: true
+    world.importer.dir_to_import: /var/www/local.dev/reservem/src/Zogs/WorldBundle/Resources/import/

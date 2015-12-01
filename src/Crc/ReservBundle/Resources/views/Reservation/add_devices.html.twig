@@ -18,7 +18,13 @@
 				{{ devices|length }} {{ type }} 
 			</td>
 			<td>
-				<input type="text" name="reservation_devices_number[{{ type }}]">				
+				<div class="control-group">
+					<label class="control-label">Combien ?</label>
+					<div class="controls">
+						<input type="text" name="reservation_devices_number[{{ type }}]" placeholder="Entrer un nombre">				
+						<div class="helper help-inline help-error hide"></div>
+					</div>	
+				</div>
 			</td>
 		</tr>
 	

@@ -413,9 +413,8 @@ class ReservationController extends Controller
 
 	public function extendAction(Reservation $reservation)
 	{
-
+		
 		$form = $this->createForm('extend_reservation_form',$reservation);
-
 		$form->handleRequest($this->getRequest());
 
 		if($form->isValid()) {
@@ -433,6 +432,29 @@ class ReservationController extends Controller
 		return $this->render('CrcReservBundle:Reservation:extend.html.twig',array(
 			'form' => $form->createView(),
 			'reservation' => $reservation
+			));
+	}
+
+	public function checkExtendableAction(Reservation $reservation)
+	{
+
+		$form = $this->createForm('extend_reservation_form',$reservation);
+		$form->handleRequest($this->getRequest());
+		$reserved = null;
+		$date = null;
+
+		if($form->isValid()) {
+
+			$reserved = $this->get('reservation.manager')->getExtendReservedDevices($reservation,$form->get('date_end')->getData());
+			$date = $form->get('date_end')->getData();
+			
+		}
+
+		return $this->render('CrcReservBundle:Reservation:extend.html.twig',array(
+			'form' => $form->createView(),
+			'reservation' => $reservation,
+			'reserved' => $reserved,
+			'date' => $date,
 			));
 	}
 

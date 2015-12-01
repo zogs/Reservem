@@ -91,6 +91,7 @@
 
 
         <script type="text/javascript">
+            {% block document_preready %}{% endblock %}
             $(document).ready(function() {
                 {% block document_ready %}{% endblock %}
             });

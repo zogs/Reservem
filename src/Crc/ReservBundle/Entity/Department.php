@@ -54,7 +54,7 @@ class Department
     private $admins = null;
 
  /**
-     * @ORM\ManyToMany(targetEntity="Zogs\UserBundle\Entity\User")
+     * @ORM\ManyToMany(targetEntity="Zogs\UserBundle\Entity\User", inversedBy="departments")
      * @ORM\JoinTable(name="department_members")
      */
     private $members = null;

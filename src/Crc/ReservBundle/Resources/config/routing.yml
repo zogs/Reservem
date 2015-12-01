@@ -118,6 +118,10 @@ crc_reserv_extend:
     path: /reservation/extend/{id}
     defaults: { _controller: CrcReservBundle:Reservation:extend }
 
+crc_reserv_check_extend:
+    path: /reservation/check/extend/{id}
+    defaults: { _controller: CrcReservBundle:Reservation:checkExtendable }
+
 crc_reserv_return_device:
     path: /reservation/return/device/{device}/{reservation}
     defaults: { _controller: CrcReservBundle:Reservation:returnDevice }

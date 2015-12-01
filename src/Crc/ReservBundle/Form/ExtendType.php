@@ -29,9 +29,7 @@ class ExtendType extends AbstractType
                 'attr' => array('class' => 'with_date_picker'),
                 ))->addModelTransformer(new DateToDatetimeTransformer('d/m/Y'))
             )            
-           ->add('submit','submit',array(
-                'label' => "Envoyer"
-                ))
+           
         ;
 
     }

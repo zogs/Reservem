@@ -3,6 +3,21 @@
 #################
 app/phpunit.xml
 vendor/
+web/bundles/*
+web/css/*
+web/css/compiled/*
+web/js/*
+web/js/compiled/*
+app/bootstrap.php.cache
+app/cache/*
+app/config/parameters.yml
+app/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+build/
+vendor/
+bin/
+composer.phar
 
 ##########
 ##SASS

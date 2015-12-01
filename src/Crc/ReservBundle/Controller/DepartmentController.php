@@ -132,7 +132,7 @@ class DepartmentController extends Controller
 	public function viewReservationsAction(Department $department) 
 	{
 
-		$reservations = $this->getDoctrine()->getManager()->getRepository('CrcReservBundle:Reservation')->findConfirmedByDepartment($department);
+		$reservations = $this->getDoctrine()->getManager()->getRepository('CrcReservBundle:Reservation')->findByDepartment($department);
 
 		return $this->render('CrcReservBundle:Department:view_reservations.html.twig', array(
 			'department' => $department,

@@ -48,7 +48,7 @@
 			<td>
 				<a href="{{ path('crc_reserv_edit', { id:reservation.id })}}" class="btn btn-sm btn-info">Voir la réservation</a>
 				{% if reservation.ongoing == true %}
-					<a href="{{ path('crc_reserv_extend',{id:reservation.id}) }}" class="btn btn-warning">Prolonger</a>
+					<a href="{{ path('crc_reserv_extend',{id:reservation.id}) }}" class="btn btn-sm btn-warning">Prolonger</a>
 					<a href="{{ path('crc_reserv_return', { id:reservation.id })}}" class="btn btn-sm btn-danger">Retourner les équipements</a>
 				{% else  %}
 					<a href="{{ path('crc_reserv_takeout', { id:reservation.id })}}" class="btn btn-sm btn-warning">Sortir les équipements</a>

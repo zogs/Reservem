@@ -25,23 +25,23 @@ class LoadWorldDatabaseTestData extends AbstractFixture implements OrderedFixtur
 	}
 
 	public function load(ObjectManager $manager)
-	{
+	{		
+		if($this->container->hasParameter('world.importer.load_as_fixtures') && true == $this->container->getParameter('world.importer.load_as_fixtures')) {
 
-		//$importer = $this->container->get('world.importer.sql');
-		//$importer->addOption('force');
-		//$importer->addOption('debug-info');
-		//$res = $importer->import('/var/www/local.dev/Sfbase/src/Zogs/WorldBundle/Resources/import/FR.sql');
-		$connection=$manager->getConnection();
-		$file='/var/www/local.dev/Sfbase/src/Zogs/WorldBundle/Resources/import/FR.sql';
-		if(!file_exists($file)) {
-			echo sprintf('File %s does not exists', $file);
-		} 
-		$data = file_get_contents($file);
+			$importer = $this->container->get('world.importer.sql');
+			$importer->setMethod('dbal');		
+			
+			if($this->container->hasParameter('world.importer.dir_to_import')) {
 
-		$err = $connection->exec($data);
-		
+				$dir = $this->container->getParameter('world.importer.dir_to_import');								
+			} else {
 
-
+				$dir = $this->container->get('kernel')->getRootDir().'/src/Zogs/WorldBundle/Resources/import/';
+			}
+			
+			$importer->importAll($dir);
+			
+		}		
 	}
 
 	public function getOrder(){

@@ -29,27 +29,33 @@ class ReservationDevicesType extends AbstractType
     {
         $builder
             ->add('name','text',array(
-                'label' => "Nom de la réservation",
                 'attr' => array(
                     'placeholder' => "Donner un nom à votre réservation",
+                    'autocomplete' => 'off',
                     )
                 ))
             ->add('comment','text',array(
-                'label' => "Descriptif de la réservation",
                 'required' => true,
                 'attr' => array(
                     'placeholder' => "Descriptif du projet, localisation des équipements, etc...",
+                    'autocomplete' => 'off',
                     )
                 ))
 
             ->add($builder->create('date_begin', 'text', array(
                 'required'=>true,
-                'attr' => array('class' => 'with_date_picker'),
+                'attr' => array(
+                    'class' => 'with_date_picker',
+                    'autocomplete' => 'off',
+                    ),
                 ))->addModelTransformer(new DateToDatetimeTransformer('d/m/Y'))
             )
            ->add($builder->create('date_end', 'text', array(
                 'required'=>true,
-                'attr' => array('class' => 'with_date_picker'),
+                'attr' => array(
+                    'class' => 'with_date_picker',
+                    'autocomplete' => 'off',
+                    ),
                 ))->addModelTransformer(new DateToDatetimeTransformer('d/m/Y'))
             )      
 

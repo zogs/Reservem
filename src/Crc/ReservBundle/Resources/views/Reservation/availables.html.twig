@@ -19,16 +19,41 @@
 				{{ devices|length }} {{ type }} 
 			</td>
 			<td>
-				<input type="text" name="reservation_devices_number[{{ type }}]">				
+				<div class="control-group">
+					<div class="controls">
+						<input type="text" name="reservation_devices_number[{{ type }}]" placeholder="Combien ?" autocomplete='off'>			
+						<div class="helper help-inline help-error hide"></div>
+					</div>	
+				</div>
+							
 			</td>
 		</tr>
 		{% endfor %}
+		<tr>
+			<td></td>
+			<td>
+				<div class="control-group">
+					<div class="controls">
+						{{ form_widget(form.name) }}		
+						<div class="helper help-inline help-error hide"></div>
+					</div>	
+				</div>
+				
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<div class="control-group">
+					<div class="controls">
+						{{ form_widget(form.comment) }}	
+						<div class="helper help-inline help-error hide"></div>
+					</div>	
+				</div>
+				
+			</td>
+		</tr>
 	</table>
-
-
-	{{ form_row(form.name) }}
-
-	{{ form_row(form.comment) }}
 
 	<div class="hide">
 		{{ form_widget(form.date_begin )}}
@@ -37,7 +62,7 @@
 	
 
 	
-	<input type="submit" class="btn btn-primary fright">
+	<input type="submit" class="btn btn-primary fright" value="Confirmer la réservation">
 	<a href="{{ path('crc_reserv_home') }}" class="btn btn-default fright">Retour à l'accueil</a>
 
 	{{ form_end(form) }}

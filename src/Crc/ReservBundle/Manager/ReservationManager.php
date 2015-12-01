@@ -19,49 +19,44 @@ class ReservationManager extends AbstractManager
 		
 		$reservations = $this->em->getRepository('CrcReservBundle:Reservation')->findConfirmedByDepartment($department);
 
-		//find all devices reserved between the reservation dates
+		$availables = array();
 		$reserved = array();
+
+		//find all devices reserved between the reservation dates
 		foreach ($reservations as $r) {
 
-			if(
-				($begin >= $r->getDateBegin() && $begin <= $r->getDateEnd())
-				||
-				($end >= $r->getDateBegin() && $end <= $r->getDateEnd())
-				||
-				($r->getDateBegin() >= $begin && $r->getDateBegin() <= $end)
-				||
-				($r->getDateEnd() >= $begin && $r->getDateEnd() <= $end)
-				||
-				($r->getDateBegin() == $begin && $r->getDateEnd() == $end)
+			if($this->crossedSchedule($r->getDateBegin(),$r->getDateEnd(),$begin,$end)
 			) {
-				$types_in_use = $r->getAllTypes();
-
-				foreach ($types_in_use as $type) {
-					
-					if(isset($reserved[$type])) $reserved[$type] = array_merge($reserved[$type],$r->getDevicesByType($type));
-					else $reserved[$type] = $r->getDevicesByType($type);					
-				}
+				$reserved = array_merge($reserved,$r->getDevices()->toArray());
 				
 			}
 			
 		}
-
-
-		//find on-stock devices , grouped by type
-		$availables = $this->em->getRepository('CrcReservBundle:Device')->findAvailablesByDepartment($department);
 		
-		//remove devices that are reserved
-		foreach ($availables as $type => $devices) {
+		//find all devices from department
+		$all = $this->em->getRepository('CrcReservBundle:Device')->findByDepartment($department);
+
+		//get all not reserved devices
+		foreach ($all as $k => $d) {
 			
-			if(isset($reserved[$type])) {
-				foreach ($devices as $k => $device) {					
-					if( in_array($device,$reserved[$type])) unset($availables[$type][$k]);
-				}
-				$availables[$type] = array_values($availables[$type]); //rebuild keys				
-			}
+			if( ! in_array($d,$reserved)) $availables[] = $d;
 		}
-		//return only the available ones
+
+		//group by type
+		$availables = $this->groupByType($availables);
+		
 		return $availables;
+		
+	}
+
+	public function groupByType($devices) {
+
+		$types = array();
+		foreach ($devices as $key => $device) {
+			if(isset($types[$device->getType()])) $types[$device->getType()][] = $device;
+			else $types[$device->getType()] = array($device);
+		}
+		return $types;
 	}
 
 	public function isDevicesAvailables($devices,\Datetime $begin, \Datetime $end,Department $department)
@@ -84,7 +79,6 @@ class ReservationManager extends AbstractManager
 
 		foreach ($wanted as $type => $number) {
 			
-
 			if($number > count($availables[$type])) return false;
 
 			for($i = 0; $i < $number; $i++) {
@@ -164,7 +158,7 @@ class ReservationManager extends AbstractManager
 		if( ! $reservation->getDevices()->contains($device)) throw new \Exception("Can't replace device because Reservation does not contain this device", 1);
 		
 		//get all available devices for the period
-		$availables = $this->getDevicesAvailable($reservation->getDateBegin(),$reservation->getDateEnd());
+		$availables = $this->getDevicesAvailable($reservation->getDateBegin(),$reservation->getDateEnd(),$reservation->getDepartment());
 
 		//check if one same device match
 		if(! empty($availables[$device->getType()])) {
@@ -184,31 +178,86 @@ class ReservationManager extends AbstractManager
 
 	}
 
+	public function getExtendReservedDevices(Reservation $reservation, \Datetime $date)
+	{
+		//get used devices
+		$used = $reservation->getDevices();
+		//get department reservation
+		$reservations = $this->em->getRepository('CrcReservBundle:Reservation')->findConfirmedByDepartment($reservation->getDepartment());
+		$reserved = array();
+		$available = array();
+		//for each reservations
+		foreach ($reservations as $k=> $r) {
+			//exclude current reservation
+			if($r->getId() == $reservation->getId()) continue;
+			//if date period crossed each other
+			if($this->crossedSchedule($r->getDateBegin(),$r->getDateEnd(),$reservation->getDateBegin(),$date))
+			{
+				$devices = $r->getDevices();
+				foreach ($devices as $d) {
+					//get device that is reserved by another reservations
+					if( $used->contains($d)) {
+						//save the reserved reservatoin
+						$d->_reserved = $r;
+						$reserved[] = $d;
+					} 
+				}
+			}
+		}
+		return $reserved;
+	}
+
+	private function crossedSchedule(\Datetime $begin1, \Datetime $end1, \Datetime $begin2, \Datetime $end2)
+	{
+		if(
+			($begin1 <= $begin2 && $end1 >= $end2)
+			||
+			($begin1 >= $begin2 && $end1 <= $end2)
+			||
+			($begin1 <= $begin2 && $end1 >= $begin2)
+			||
+			($begin1 >= $begin2 && $begin1 <= $end2)
+		){			
+			return true;
+		} 
+		else {
+			return false;
+		}
+	}
+
+	private function crossedReservations(Reservation $r1, Reservation $r2)
+	{
+		return $this->crossedSchedule($r1->getDateBegin(),$r1->getDateEnd(),$r2->getDateBegin(),$r2->getDateEnd());		
+	}
+
 	public function extendReservation(Reservation $reservation, \Datetime $date)
 	{
 		$used = $reservation->getDevices();
 		$reservations = $this->em->getRepository('CrcReservBundle:Reservation')->findConfirmedByDepartment($reservation->getDepartment());
+		
 		$concerned = array();
 		foreach ($reservations as $k => $r) {
-						
+				
 			//exclude current reservation
 			if($r->getId() == $reservation->getId()) continue;
 
+			
 			//if date period crossed each other
-			if($r->getDateBegin() <= $date) {
+			if($this->crossedSchedule($r->getDateBegin(),$r->getDateEnd(),$reservation->getDateBegin(),$date))
+			{
 
 				//look for devices that are used by current reservation
 				$reserved = $r->getDevices();
-				foreach ($reserved as $d) {					
+									
+				foreach ($reserved as $d) {
 					if($used->contains($d)) {
 						//increment devices to be replaced
 						if(empty($r->to_be_replaced)) $r->to_be_replaced = array();
 						$r->to_be_replaced[] = $d;
 					}
 				}
+
 			}
-
-
 			//if there is device that are reserved, try to replace it
 			if( ! empty($r->to_be_replaced)) {
 				//stock concerned reservation
@@ -229,7 +278,7 @@ class ReservationManager extends AbstractManager
 			}
 
 		}
-	
+		
 		//check if one device can not be replaced
 		foreach ($concerned as $r) {
 
@@ -238,7 +287,7 @@ class ReservationManager extends AbstractManager
 
 		}
 
-		//all device can be replaced
+		//then all device can be replaced
 		foreach ($concerned as $r) {
 			//save it
 			$this->saveReservation($r);

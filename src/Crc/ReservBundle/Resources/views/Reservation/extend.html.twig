@@ -16,16 +16,28 @@
   	</ul>
 
   	<p>
-		<a href="{{ path('crc_reserv_edit',{id: reservation.id}) }}" class="btn btn-xs btn-default">Retour à la réservation</a>		  
+		<a href="{{ path('crc_reserv_edit',{id: reservation.id}) }}" class="btn btn-default">Retour à la réservation</a>		  
   	</p>
 
   	<table class="table table-condensed">
-  		
+    
   		{% for device in reservation.devices %}
 			<tr>
 				<td>
 					{{ device.code }}
-				</td>				
+				</td>
+                          {% if reserved is defined and reserved is not null %}
+                            <td>
+
+                              {% if reserved is defined %}
+                                  {% if device in reserved %}
+                                    <span class="label label-danger">Est réservé par {{ device._reserved.user.username|capitalize }} jusqu'au {{ device._reserved.getDateEnd()|date('d/m/Y') }}</span>
+                                  {% else %}
+                                    <span class="label label-success">Disponible jusqu'au {{ date|date('d/m/Y') }}</span>
+                                  {% endif %}
+                              {% endif %}
+                            </td>
+                          {% endif %}				
 				<td>
 					<label for="device[{{device.id}}]">{{ device.type }}</label>
 				</td>
@@ -39,9 +51,27 @@
 
   	<h3>Prolonger jusqu'au :</h3>
 	
-	{{ form_start(form) }}
+	{{ form_start(form,{attr:{id:'form_extend'}}) }}
   	{{ form_row(form.date_end) }}
+
+      <button class="btn btn-primary fright" onclick="askForExtend(); return false">Prolonger ces équipements</button>
+      <button class="btn btn-default fright" onclick="askForCheck(); return false">Vérifier la disponibilité des équipements</button>
   	{{ form_end(form) }}
   	
 	
 {% endblock %}
+
+{% block document_preready %}    
+
+form = document.getElementById('form_extend');
+
+  function askForExtend() {
+        form.action="{{ path('crc_reserv_extend',{id:reservation.id})}}";
+        form.submit();
+}
+function askForCheck() {
+        form.action="{{ path('crc_reserv_check_extend',{id:reservation.id})}}";
+        form.submit();
+}
+
+{% endblock  %}
