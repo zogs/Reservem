@@ -15,7 +15,7 @@ class Mailer implements MailerInterface
     protected $router;
     protected $templating;
 
-    public $expediteur = array('contact@cosporturage.fr' => 'coSporturage.fr');
+    public $expediteur = array('reservem@u-bourgogne.fr' => 'u-bourgogne.fr');
 
     public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, RouterInterface $router)
     {
@@ -24,9 +24,9 @@ class Mailer implements MailerInterface
         $this->templating = $templating;
     }
 
-    public function sendTestMessage()
+    public function sendTestMessage($email)
     {
-        $this->sendMessage('sfwesport@we-sport.fr', 'guichardsim@gmail.com', 'test mailer', '<html><body><strong>Hello world</strong></body></html>');;
+        $this->sendMessage($this->expediteur, $email, 'Test mailer', '<html><body><strong>Hello world</strong></body></html>');;
     }
 
     public function sendConfirmationEmailMessage(UserInterface $user)

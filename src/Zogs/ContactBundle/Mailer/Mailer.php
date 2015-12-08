@@ -19,7 +19,7 @@ class Mailer
 
     public function sendTestMessage()
     {
-        $this->sendMessage('sfwesport@we-sport.fr', $this->recipients, 'test mailer', '<html><body><strong>Hello world</strong></body></html>');;
+        $this->sendMessage('reservem@u-bourgogne.fr', $this->recipients, 'test mailer', '<html><body><strong>Hello world</strong></body></html>');;
     }
 
     public function sendContactMessage($contact)
