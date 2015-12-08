@@ -7,9 +7,9 @@ parameters:
     database_user: reservem
     database_password: reservem
     mailer_transport: smtp
-    mailer_host: smtp.zogs.org
-    mailer_user: contact@zogs.org
-    mailer_password: sexwax
+    mailer_host: smtp.u-bourgogne.fr
+    mailer_user: si3804gu
+    mailer_password: f4tb0ysl1M
     mailer_port: 587
     mailer_encryption: tls
     mailer_auth_mode: login
