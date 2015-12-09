@@ -143,12 +143,11 @@
 							{% if department.admins.contains(user) %}
 								<span class="label label-default">Administrateur</span>
 							{% else %}
-								<a class="btn btn-xs btn-default " href="">Promouvoir</a>
+								<a class="btn btn-xs btn-default " href="{{ path('crc_reserv_department_addadmin',{department:department.id,user:user.id}) }}">Promouvoir</a>
 							{% endif %}
 						</td>
 						<td>
-							<a class="btn btn-xs btn-default" href="">Editer</a>
-							<a class="btn btn-xs btn-danger" href="">Supprimer</a>
+							<a class="btn btn-xs btn-danger" href="{{ path('crc_reserv_department_removeuser',{department:department.id,user:user.id}) }}">Supprimer</a>
 						</td>
 					</tr>
 				{% endfor  %}
@@ -163,8 +162,7 @@
 						<td>{{ user.username|capitalize }}</td>
 						<td>enregistré depuis le {{ user.registerSince|date('d-m-Y') }}</td>
 						<td>
-							<a class="btn btn-xs btn-default" href="">Editer</a>
-							<a class="btn btn-xs btn-danger" href="">Supprimer</a>
+							<a class="btn btn-xs btn-danger" href="{{ path('crc_reserv_department_removeadmin',{department:department.id,user:user.id}) }}">Supprimer</a>
 						</td>
 					</tr>
 				{% endfor  %}
@@ -172,8 +170,8 @@
 		</table>
 	</div>
 </div>
-<a class="btn   btn-primary" href="{{ path('crc_reserv_department_adduser',{department:department.id}) }}">Ajouter un utilisateur d'une autre composante</a>
-<a class="btn   btn-primary" href=''>Inviter un utilisateur extérieur</a>
+<a class="btn   btn-primary" href="{{ path('crc_reserv_department_adduser',{department:department.id}) }}">Ajouter un utilisateur</a>
+
 
 
 

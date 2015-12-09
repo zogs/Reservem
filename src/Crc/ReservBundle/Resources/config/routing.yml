@@ -162,6 +162,18 @@ crc_reserv_department_adduser:
     path: /admin/department/addmember/{department}
     defaults: { _controller: CrcReservBundle:Department:addMember }
 
+crc_reserv_department_removeuser:
+    path: /admin/department/{department}/removemember/{user}
+    defaults: { _controller: CrcReservBundle:Department:removeMember }
+
+crc_reserv_department_addadmin:
+    path: /admin/department/{department}/addadmin/{user}
+    defaults: { _controller: CrcReservBundle:Department:addAdmin }
+
+crc_reserv_department_removeadmin:
+    path: /admin/department/{department}/removeadmin/{user}
+    defaults: { _controller: CrcReservBundle:Department:removeAdmin }
+
 crc_reserv_department_delete:
     path: /admin/department/delete/{id}
     defaults: { _controller: CrcReservBundle:Department:delete }
