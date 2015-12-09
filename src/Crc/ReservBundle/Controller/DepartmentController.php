@@ -94,6 +94,37 @@ class DepartmentController extends Controller
 			));
 	}
 
+	public function removeMemberAction(Department $department, User $user)
+	{
+		if( ! $department->isAdmin($this->getUser())) throw new AccessDeniedException();
+
+		$department->removeMember($user);
+		$department->removeAdmin($user);
+		$this->get('department.manager')->save($department);
+
+		return $this->redirectToRoute('crc_reserv_department_admin',array('id'=>$department->getId()));
+	}
+
+	public function addAdminAction(Department $department, User $user)
+	{
+		if( ! $department->isAdmin($this->getUser())) throw new AccessDeniedException();
+
+		$department->addAdmin($user);
+		$this->get('department.manager')->save($department);
+
+		return $this->redirectToRoute('crc_reserv_department_admin',array('id'=>$department->getId()));
+	}
+
+	public function removeAdminAction(Department $department, User $user)
+	{
+		if( ! $department->isAdmin($this->getUser())) throw new AccessDeniedException();
+
+		$department->removeAdmin($user);
+		$this->get('department.manager')->save($department);
+
+		return $this->redirectToRoute('crc_reserv_department_admin',array('id'=>$department->getId()));
+	}
+
 	public function deleteAction(Department $department) 
 	{
 		$form = $this->createFormBuilder()
