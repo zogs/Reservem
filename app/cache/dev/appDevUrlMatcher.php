@@ -781,6 +781,16 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'en__RG__crc_reserv_extend')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\ReservationController::extendAction',  '_locale' => 'en',));
         }
 
+        // fr__RG__crc_reserv_check_extend
+        if (0 === strpos($pathinfo, '/reservation/check/extend') && preg_match('#^/reservation/check/extend/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'fr__RG__crc_reserv_check_extend')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\ReservationController::checkExtendableAction',  '_locale' => 'fr',));
+        }
+
+        // en__RG__crc_reserv_check_extend
+        if (0 === strpos($pathinfo, '/en/reservation/check/extend') && preg_match('#^/en/reservation/check/extend/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'en__RG__crc_reserv_check_extend')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\ReservationController::checkExtendableAction',  '_locale' => 'en',));
+        }
+
         // fr__RG__crc_reserv_return_device
         if (0 === strpos($pathinfo, '/reservation/return/device') && preg_match('#^/reservation/return/device/(?P<device>[^/]++)/(?P<reservation>[^/]++)$#s', $pathinfo, $matches)) {
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'fr__RG__crc_reserv_return_device')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\ReservationController::returnDeviceAction',  '_locale' => 'fr',));
@@ -861,6 +871,16 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'en__RG__crc_reserv_department_edit')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\DepartmentController::editAction',  '_locale' => 'en',));
         }
 
+        // fr__RG__crc_reserv_department_create_device
+        if (0 === strpos($pathinfo, '/admin/department') && preg_match('#^/admin/department/(?P<department>\\d+)/create/device(?:/(?P<device>\\d+))?$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'fr__RG__crc_reserv_department_create_device')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\DepartmentController::createDeviceAction',  'device' => 'null',  '_locale' => 'fr',));
+        }
+
+        // en__RG__crc_reserv_department_create_device
+        if (0 === strpos($pathinfo, '/en/admin/department') && preg_match('#^/en/admin/department/(?P<department>\\d+)/create/device(?:/(?P<device>\\d+))?$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'en__RG__crc_reserv_department_create_device')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\DepartmentController::createDeviceAction',  'device' => 'null',  '_locale' => 'en',));
+        }
+
         // fr__RG__crc_reserv_department_admin
         if (0 === strpos($pathinfo, '/admin/department') && preg_match('#^/admin/department/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'fr__RG__crc_reserv_department_admin')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\DepartmentController::adminAction',  '_locale' => 'fr',));
@@ -879,6 +899,36 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         // en__RG__crc_reserv_department_adduser
         if (0 === strpos($pathinfo, '/en/admin/department/addmember') && preg_match('#^/en/admin/department/addmember/(?P<department>[^/]++)$#s', $pathinfo, $matches)) {
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'en__RG__crc_reserv_department_adduser')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\DepartmentController::addMemberAction',  '_locale' => 'en',));
+        }
+
+        // fr__RG__crc_reserv_department_removeuser
+        if (0 === strpos($pathinfo, '/admin/department') && preg_match('#^/admin/department/(?P<department>[^/]++)/removemember/(?P<user>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'fr__RG__crc_reserv_department_removeuser')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\DepartmentController::removeMemberAction',  '_locale' => 'fr',));
+        }
+
+        // en__RG__crc_reserv_department_removeuser
+        if (0 === strpos($pathinfo, '/en/admin/department') && preg_match('#^/en/admin/department/(?P<department>[^/]++)/removemember/(?P<user>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'en__RG__crc_reserv_department_removeuser')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\DepartmentController::removeMemberAction',  '_locale' => 'en',));
+        }
+
+        // fr__RG__crc_reserv_department_addadmin
+        if (0 === strpos($pathinfo, '/admin/department') && preg_match('#^/admin/department/(?P<department>[^/]++)/addadmin/(?P<user>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'fr__RG__crc_reserv_department_addadmin')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\DepartmentController::addAdminAction',  '_locale' => 'fr',));
+        }
+
+        // en__RG__crc_reserv_department_addadmin
+        if (0 === strpos($pathinfo, '/en/admin/department') && preg_match('#^/en/admin/department/(?P<department>[^/]++)/addadmin/(?P<user>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'en__RG__crc_reserv_department_addadmin')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\DepartmentController::addAdminAction',  '_locale' => 'en',));
+        }
+
+        // fr__RG__crc_reserv_department_removeadmin
+        if (0 === strpos($pathinfo, '/admin/department') && preg_match('#^/admin/department/(?P<department>[^/]++)/removeadmin/(?P<user>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'fr__RG__crc_reserv_department_removeadmin')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\DepartmentController::removeAdminAction',  '_locale' => 'fr',));
+        }
+
+        // en__RG__crc_reserv_department_removeadmin
+        if (0 === strpos($pathinfo, '/en/admin/department') && preg_match('#^/en/admin/department/(?P<department>[^/]++)/removeadmin/(?P<user>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'en__RG__crc_reserv_department_removeadmin')), array (  '_controller' => 'Crc\\ReservBundle\\Controller\\DepartmentController::removeAdminAction',  '_locale' => 'en',));
         }
 
         // fr__RG__crc_reserv_department_delete
