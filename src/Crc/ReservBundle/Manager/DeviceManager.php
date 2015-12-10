@@ -120,7 +120,7 @@ class DeviceManager extends AbstractManager
 		for($i = 0; $i<$quantity; $i++) {
 
 			$counter++;
-			$code = $department->getAcronyme().'.'.$device->getCode().$counter;
+			$code = $department->getAcronyme().$device->getCode().$counter;
 
 			$d = clone($device);
 			$d->setCode($code);
