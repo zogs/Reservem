@@ -154,6 +154,13 @@ crc_reserv_department_edit:
     path: /admin/department/edit/{id}
     defaults: { _controller: CrcReservBundle:Department:edit }
 
+crc_reserv_department_create_device:
+    path:     /admin/department/{department}/create/device/{device}
+    defaults: { _controller: CrcReservBundle:Department:createDevice, device: 'null' }
+    requirements:
+        department: \d+ 
+        device: \d+
+
 crc_reserv_department_admin:
     path: /admin/department/{id}
     defaults: { _controller: CrcReservBundle:Department:admin }

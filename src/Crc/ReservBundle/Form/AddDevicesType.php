@@ -48,14 +48,18 @@ class AddDevicesType extends AbstractType
             ->add('description','textarea',array(
                 'label'=>"Description",
                 'required' => false,
+                'attr' => array(
+                    'placeholder' => "Description de l'équipement",
+                    )  
                 ))   
-            ->add('quantity','integer',array(
+            ->add('quantity','text',array(
                 'label' => 'Quantité',
                 'mapped' => false,
+                'attr' => array(
+                    'placeholder' => "Quantité à créer",
+                    )  
                 ))   
-           ->add('submit','submit',array(
-                'label' => "Envoyer"
-                ))
+          
         ;
 
     }

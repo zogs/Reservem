@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 use Crc\ReservBundle\Entity\Department;
+use Crc\ReservBundle\Entity\Device;
 use Zogs\UserBundle\Entity\User;
 
 class DepartmentController extends Controller
@@ -169,6 +170,39 @@ class DepartmentController extends Controller
 			'department' => $department,
 			'reservations' => $reservations,
 			));
+	}
+
+
+	public function createDeviceAction(Department $department, Device $device = null)
+	{		
+		
+		if($device === null) $device = new Device();
+		$device->setDepartment($department);		
+		$form = $this->createForm('add_devices_form',$device);
+
+		$form->handleRequest($this->getRequest());
+		if($form->isValid()) {
+
+			$quantity = $form->get('quantity')->getData();
+			$department = $form->get('department')->getData();
+			$user = $this->getUser();
+
+			//security
+			if( ! $department->isAdmin($user)) {
+				$this->get('flashbag')->add("Vous n'ètes pas administrateur de cette composante...",'error');
+				return $this->redirect($this->generateUrl('crc_reserv_department_admin',array('id'=>$department->getId())));
+			}
+
+			$this->get('device.manager')->create($device,$user,$department,$quantity);
+			
+			$this->get('flashbag')->add("Vous avez créé ".$quantity." équipements ! ",'success');
+			return $this->redirect($this->generateUrl('crc_reserv_device_index',array('department'=>$device->getDepartment()->getId())));
+		}
+		return $this->render('CrcReservBundle:Device:add.html.twig',array(
+			'form' => $form->createView(),
+			'department' => $department,
+			))
+		;
 	}
 
 }

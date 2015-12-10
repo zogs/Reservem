@@ -1,5 +1,9 @@
 {% extends 'CrcReservBundle:Layout:default.html.twig' %}
 
+{% block arianne %}
+	{{ parent() }} ::  <a href="{{ path('crc_reserv_department_admin',{id:devices[0].department.id}) }}">{{ devices[0].department.name }}</a> :: <a href="">Le stock</a>
+{% endblock %}
+
 {% block page_content -%}
   
   <h1>Listes des équipements</h1>
