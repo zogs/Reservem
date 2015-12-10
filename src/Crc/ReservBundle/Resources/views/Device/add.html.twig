@@ -1,7 +1,7 @@
 {% extends 'CrcReservBundle:Layout:default.html.twig' %}
 
 {% block arianne %}
-	{{ parent() }} :: <a href="">Ajouter des équipements</a>
+	{{ parent() }} ::  <a href="{{ path('crc_reserv_department_admin',{id:department.id}) }}">{{ department.name }}</a> :: <a href="">Ajouter des équipements</a>
 {% endblock %}
 
 
@@ -10,6 +10,21 @@
 
   	<h1>Ajouter des équipements</h1>
   	
-	{{ form(form) }}
+
+	{{ form_start(form) }}
+		{{ form_row(form.type)}}
+		{{ form_row(form.model)}}
+		{{ form_row(form.code)}}
+		{{ form_row(form.description)}}
+		{{ form_row(form.quantity)}}
+
+		<div style="display:none;">
+		{{ form_row(form.department)}}
+		</div>
+		<input type="submit" class="btn btn-primary" value="Enregistrer" style="float:right">
+
+	{{ form_end(form) }}
+
+
 
 {% endblock %}

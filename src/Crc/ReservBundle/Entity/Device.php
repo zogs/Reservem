@@ -47,7 +47,7 @@ class Device
     /**
      * @ORM\Column(type="string", length=300, nullable=true)
      */
-    private $description = true;
+    private $description = null;
 
     /**
      * @ORM\Column(type="string", length=30)
@@ -70,9 +70,9 @@ class Device
     private $on_the_ground = false;
 
     /**
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
-    private $comment = '';
+    private $comment = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="Zogs\UserBundle\Entity\User", fetch="EAGER")
