@@ -36,13 +36,13 @@ class AddDevicesType extends AbstractType
                 'label' => "Modèle",
                 'required' => false,
                 'attr' => array(
-                    'placeholder' => "Sonde, Pluvio, Abri, ...",
+                    'placeholder' => "Sonde HOBO U23-004",
                     )
                 ))
             ->add('code','text',array(
                 'label' => "Code d'identification",     
                 'attr' => array(
-                    'placeholder' => "Abbreviation entre 3 et 5 lettres",
+                    'placeholder' => "Abbreviation de 8 caractères maximum",
                     )         
                 ))
             ->add('description','textarea',array(
