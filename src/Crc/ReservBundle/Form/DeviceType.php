@@ -42,12 +42,26 @@ class DeviceType extends AbstractType
                     'placeholder' => "",
                     )         
                 ))
-            ->add('status','text',array(
-                'label' => "Statut", 
-                'required' => false,    
-                'attr' => array(
-                    'placeholder' => "libre,reserved,repairing,...",
-                    )         
+            ->add('working','choice',array(
+                'expanded' => false,
+                'multiple' => false,
+                'choices' => array(0=>'Oui',1=>'Non'),     
+                'label' => "Defectueux",           
+                'required' => false,
+                ))
+            ->add('missing','choice',array(
+                'expanded' => false,
+                'multiple' => false,
+                'choices' => array('1'=>'Oui','0'=>'Non'),     
+                'label' => "Manquant",           
+                'required' => false,
+                ))
+            ->add('on_the_ground','choice',array(
+                'expanded' => false,
+                'multiple' => false,
+                'choices' => array('0'=>'Oui','1'=>'Non'),     
+                'label' => "En stock",           
+                'required' => false,
                 ))
             ->add('comment','textarea',array(
                 'label'=>"Commentaire sur l'appareil ou l'utilisation",
