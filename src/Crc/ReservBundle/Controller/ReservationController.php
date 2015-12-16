@@ -312,11 +312,10 @@ class ReservationController extends Controller
 
 	public function returnAction(Reservation $reservation)
 	{
-
+			
 		if($this->getRequest()->request->has('device')) {
 
 			$devices = $this->getRequest()->request->get('device');
-
 			if(count($devices) < $reservation->getDevices()->count()) {
 				$this->get('device.manager')->returnDevices($devices);
 				$this->get('flashbag')->add("Il reste encore des équipements à retourner...","warning");

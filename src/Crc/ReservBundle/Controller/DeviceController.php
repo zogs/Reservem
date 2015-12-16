@@ -153,6 +153,7 @@ class DeviceController extends Controller
 
 		return $this->render('CrcReservBundle:Device:edit.html.twig',array(
 			'form' => $form->createView(),
+			'device' => $device,
 			))
 		;
 	}
